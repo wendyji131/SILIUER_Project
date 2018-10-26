@@ -533,20 +533,18 @@ void* listenKey(void *ptr)
         }
     }
 }
+
 void mainMenu();
-void loginMenu();
-void regMenu();
 void gameMenu();
-void checkPassword();
-void checkUsername();
-
-
+void checkPassword(string& password);
+void checkUsername(string& name );
 
 int main()
 {
     mainMenu();
+    /*
     pthread_t t1;
-pthread_mutex_init(&mutex_lock, NULL);
+    pthread_mutex_init(&mutex_lock, NULL);
 	system("clear");
     Game g;
     //g.createCube();
@@ -559,26 +557,15 @@ pthread_mutex_init(&mutex_lock, NULL);
         usleep(SPEED);
         g.move(DOWN);
     }
+     */
 	return 0;
 }
 
-
-void gameMenu(){
-
-}
 void checkPassword(){
-    while(1){
-        gameMenu();
-    }
 }
+
 void checkUsername(){
-    //access data base to check the user name is exist
-    while(1){
-        checkPassword();
-    }
 }
-
-
 
 void mainMenu(){
     cout << endl << endl;
@@ -591,10 +578,11 @@ void mainMenu(){
     cout << "          Exit     (3)" << endl;
     cout << endl;
     cout << endl;
-    cout << "Enter your choice: "
+    cout << "Enter your choice: ";
     cout << endl;
     int choice;
     cin >> choice;
+    //check choice is legal or not
     while (choice != 1 or choice != 2 or choice != 3){
         cout << "Your choice is not valid!" << endl;
         cout << "Please make a valid choice: ";
@@ -602,18 +590,113 @@ void mainMenu(){
     }
     switch(choice){
         case 1:
+            //LoginMenu
+            string name, password;
+
             cout << "*****************************************" << endl;
-            cout << "     Enter your user name and password" << endl;
-            string username, password;
-            cin >> username >> password;
-            checkUsername(username);
+            cout << "\t\tEnter your user name: " << endl;
+            cin >> name;
+            checkUsername(name);
+
+            cout << "\t\tEnter your password: " << endl;
+            cin >> password;
             checkPassword(password);
+
+            gameMenu();
 
             break;
         case 2:
-            reg();
+            //registerMenu
+            //set username
+            string name, password1, password2;
+            cout << "*****************************************" << endl;
+            cout << "\t\tSet your user name: " << endl;
+            cout << "\t\t-User Name should be combination of less than 8 digits or letters";
+            cin >> name;
+            /*****************************************************/
+            //check if the username is used by the other user or not
+            /*****************************************************/
+            checkUsername(name);
+
+            //set password
+            do {
+                cout << "\t\tSet your password: " << endl;
+                cout << "\t\t-Password should be combination of 8 digits or letters";
+                cin >> password1;
+                checkUsername(name);
+                cout << "\t\t-Repeat your password:";
+                cin >> password2;
+            } while (password1 != password2);
+
+            /*****************************************************/
+            //save user's information
+            /*****************************************************/
+            gameMenu();
+
             break;
         case 3:
+            //Exit
+            return 0;
+    }
+}
+
+void gameMenu(){
+    cout << endl << endl;
+    cout << "*****************************************" << endl;
+    cout << "******************TETRIS******************" << endl;
+    cout << "*****************************************" << endl;
+    cout << endl << endl;
+    cout << "          Play Game            (1)" << endl;
+    cout << "          Game Instructions    (2)" << endl;
+    cout << "          High Score           (3)" << endl;
+    cout << "          Purchase             (4)" << endl;
+    cout << "          Exit                 (5)" << endl;
+    cout << endl;
+    cout << endl;
+    cout << "Enter your choice: ";
+    cout << endl;
+    int choice;
+    cin >> choice;
+
+    //check choice is legal or not
+    while (choice != 1 or choice != 2 or choice != 3){
+        cout << "Your choice is not valid!" << endl;
+        cout << "Please make a valid choice: ";
+        cin >> choice;
+    }
+
+    switch(choice){
+        case 1:
+            //Play Game
+            pthread_t t1;
+            pthread_mutex_init(&mutex_lock, NULL);
+            system("clear");
+            Game g;
+            //g.createCube();
+            g.gameInit();
+            pthread_create(&t1,NULL,listenKey,(void*)(&g));
+            /*
+            while(1)
+            {
+                fflush(stdout);
+                usleep(SPEED);
+                g.move(DOWN);
+            }
+            */
             break;
+        case 2:
+            //Game Instructions
+            cout <<
+            break;
+        case 3:
+            //High Score
+            break;
+        case 4:
+            //Purchase
+
+            break;
+        case 5:
+            //Exit
+            return 0;
     }
 }
