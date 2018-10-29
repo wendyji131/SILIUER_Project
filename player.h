@@ -1,5 +1,5 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef PLAYER_H_
+#define PLAYER_H_
 
 #define TRUE 1
 #define FALSE 0
@@ -10,11 +10,10 @@
 using namespace std;
 
 class player{
-    //friend admin;
 public:
     player();
     player(string username, string psd);
-    ~player();
+    //~player();
 
     string getUsername();
     string getPassword();
@@ -28,10 +27,10 @@ public:
 private:
     string username_;
     string psd_;
-    char gender_;
-    string email_;
+    //char gender_;
+    //string email_;
     bool does_pay_;
-    string login_date_;
+    //string login_date_;
     int highest_score_;
     vector<int> scores_;
 };
