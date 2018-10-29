@@ -1,20 +1,27 @@
 #include <iostream>
 #include <string>
-#include "playerInfo.h"
 #include <cctype>
+#include"../include/player.h"
+#include "../include/game.h"
+#include "../include/rand.h"
+#include <fstream>
 using namespace std;
-
-playerInfo player;
 
 void mainMenu();
 void gameMenu();
 string setPassword();
 string setUsername();
 bool checkPassword(string& psw);
+void save_to_Txt(std::string playerinfo);
+void purchase();
+void getpay();
+void save_to_bank(string pay_info);
 
-int main()
-{
+//player player1;
+
+int main(){
     mainMenu();
+
     return 0;
 }
 
@@ -48,6 +55,7 @@ void mainMenu(){
             cin >> name_login;
             //check database if the user name exists
 
+
             cout << "\tEnter your password: ";
             cin >> psd_login;
             //check database if the password is correct
@@ -69,8 +77,9 @@ void mainMenu(){
             cout << "\n-Password should be combination of 8 digits or letters";
             psd = setPassword();   //set password
 
-            player.setUsername(name);
-            player.setPassword(psd);
+            save_to_Txt(name);
+            save_to_Txt(psd);
+
             /*****************************************************/
             //save user's information
             /*****************************************************/
@@ -79,6 +88,7 @@ void mainMenu(){
             break;
         case 3:
             //Exit
+
             break;
     }
 }
@@ -111,7 +121,8 @@ void gameMenu(){
     switch(choice){
         case 1:
             //Play Game
-
+            //Game g;
+            //g.playGame();
             break;
         case 2:
             //Game Instructions
@@ -135,11 +146,14 @@ void gameMenu(){
             cout << "*****************************************" << endl;
             cout << endl << endl;
             cout << "\tYour highest score is: ";
-            cout << player.getScore() << endl;
-            gameMenu();
+            //cout << player.getScore() << endl;
+            //gameMenu();
             break;
         case 4:
             //Purchase
+            purchase();
+            //getpay();
+            //save_to_bank(pay_info);
 
             break;
         case 5:
@@ -227,4 +241,99 @@ bool checkPassword(string& psw){
 
     }
     return 1;
+}
+
+void save_to_Txt(std::string playerinfo) {
+    //save user's infomation to text file
+    std::ofstream outFile;
+    outFile.open("private.txt",std::ios::app);
+
+    outFile << playerinfo;
+    outFile << std::endl;
+
+    outFile.close();
+
+}
+
+
+void purchase() {
+
+    string pay_choice;
+
+    cout << "*****************************************" << endl;
+    cout << "Our game has 10 levels," << endl;
+    cout << "the level will automaticallyy increase when you reach a certain point of the score." << endl;
+    cout << "Free to play, you could only has 1 to 3 levels," << endl;
+    cout << "if a player want to unlock the rest of levels(4 to 10), he or she could purchase it(5 USD)." << endl;
+    cout << "Pay for more fun!" << endl << endl;
+
+    do {
+        cout << "Do you want to unlock new levels? yes/no: ";
+        cin >> pay_choice;
+    } while (pay_choice != "yes" && pay_choice != "no");
+
+    if (pay_choice == "yes") {
+        getpay();
+    } else {
+        gameMenu();
+    }
+
+}
+
+void getpay() {
+
+    string cardholder;
+    string cardnum;
+    string securitynum;
+    string month_year;
+
+    cout << "*****************************************" << endl;
+    cout << "Please input your pay card infomation" << endl;
+    cout << "You could type 'exit' back to game menu" << endl << endl;
+
+    cout << "cardholder name: ";
+    cin >> cardholder;
+    if (cardholder == "exit") {
+        gameMenu();
+    }
+
+    cout << "card number: ";
+    cin >> cardnum;
+    if (cardnum == "exit") {
+        gameMenu();
+    }
+
+    cout << "security number: ";
+    cin >> securitynum;
+    if (securitynum == "exit") {
+        gameMenu();
+    }
+
+    cout << "valid month/year (such as: 08/21): ";
+    cin >> month_year;
+    if (month_year == "exit") {
+        gameMenu();
+    }
+
+    save_to_bank(cardholder);
+    save_to_bank(cardnum);
+    save_to_bank(securitynum);
+    save_to_bank(month_year);
+
+    cout << endl << "Congratulations! You just got new game levels!" << endl;
+
+    gameMenu();
+
+}
+
+void save_to_bank(string pay_info) {
+
+    std::ofstream outFile;
+    outFile.open("bank.txt",std::ios::app);
+
+    outFile << pay_info;
+    outFile << std::endl;
+
+    outFile.close();
+
 }
