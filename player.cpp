@@ -1,31 +1,28 @@
 #include "../include/player.h"
-//#include "../include/game.h"
+#include "../include/game.h"
 #include <string>
 #include <iostream>
 using namespace std;
 
-/*
- player();
-    player(string username, string psd);
-    ~player();
-
-    string getUsername();
-    string getPassword();
-    void changePassword();
-    string setPassword();
-    bool checkPassword();
-    void printPlayerInfo();
-    void printScores();
-    int getHighestScore();
- */
-player::player(){}
+player::player(){
+    username_ = "";
+    psd_ ="";
+    //gender_ = '';
+    //email_="X@X";
+    does_pay_ = false;
+    //login_date_ = "10/10/2018";
+    highest_score_ = 0;
+    scores_ = {};
+}
 
 player::player(string username, string psd){
         username_ = username;
         psd_ = psd;
+        highest_score_ = 0;
+        scores_ = {};
 }
 
-player::~player(){}
+//player::~player(){}
 
 string player::getUsername(){
     return username_;
@@ -110,5 +107,6 @@ int player::getHighestScore(){
 }
 
 
-
-
+/*
+ main(){}
+ */
