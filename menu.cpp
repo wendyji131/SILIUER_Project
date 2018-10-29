@@ -16,6 +16,8 @@ void save_to_Txt(std::string playerinfo);
 void purchase();
 void getpay();
 void save_to_bank(string pay_info);
+string encryption(string& c);
+string decode(string& c);
 
 //player player1;
 
@@ -46,6 +48,7 @@ void mainMenu(){
         cin >> choice;
     }
     string name_login, psd_login, name, psd;
+    string new_psd;
 
     switch(choice){
         case 1:
@@ -71,18 +74,21 @@ void mainMenu(){
             cout << "-User Name should be combination of less than digits or letters.\n";
             cout << "-The length of username should be 3 to 8.";
             name = setUsername(); //set username
+            cout << "Test username = " << name << endl;
             //
             //check if the username is used by the other user or not
             //
             cout << "\n-Password should be combination of 8 digits or letters";
             psd = setPassword();   //set password
 
-            save_to_Txt(name);
-            save_to_Txt(psd);
+            //encryption password
+            //int a[] = {1, 3, 7, 9, 8, 6, 4, 0};
+            new_psd = encryption(psd);
 
-            /*****************************************************/
-            //save user's information
-            /*****************************************************/
+            //save user name and password to database
+            save_to_Txt(name);
+            save_to_Txt(new_psd);
+
             gameMenu();
 
             break;
@@ -185,8 +191,7 @@ string setUsername(){
         cout << endl;
         cout << "Please reset your username!";
         cout << endl << endl;
-        setUsername();
-        break;
+        return setUsername();
     }
 
     return name;
@@ -205,16 +210,15 @@ string setPassword(){
 
     cout << "\tRepeat your password: ";
     cin >> psw2;
-    cout << "psw1=" << psw1 << endl;
-    cout << "psw2=" << psw2 << endl;
+    //cout << "psw1=" << psw1 << endl;
+    //cout << "psw2=" << psw2 << endl;
     if (psw1==psw2){
         return psw1;
     }
     else{
         cout << endl;
         cout << "\t\tDifferent Password!" << endl;
-        setPassword();
-
+        return setPassword();
     }
 }
 
@@ -336,4 +340,26 @@ void save_to_bank(string pay_info) {
 
     outFile.close();
 
+}
+
+string encryption(string& c){
+    int a[] = {1, 3, 7, 9, 8, 6, 4, 0};
+    for(int i = 0, j = 0; c[j];j++, i = (i + 1) % 8){
+
+        c[j]+=a[i];
+
+        if(c[j] > 122) c[j] -= 90;
+    }
+    return c;
+}
+
+string decode(string& c){
+    int a[] = {1, 3, 7, 9, 8, 6, 4, 0};
+    for(int i = 0, j = 0; c[j];j++, i = (i + 1) % 8){
+
+        c[j]-=a[i];
+
+        if(c[j] < 32) c[j] += 90;
+    }
+    return c;
 }
