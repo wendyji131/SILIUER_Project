@@ -49,21 +49,33 @@ void mainMenu(){
     }
     string name_login, psd_login, name, psd;
     string new_psd;
-
+    string db_psd = "25:=<961";
     switch(choice){
         case 1:
             //LoginMenu
-            cout << "*****************************************" << endl;
-            cout << "\tEnter your user name: ";
+            cout << "******************Login******************";
+            cout << "\n\tEnter your user name: ";
             cin >> name_login;
+            ///////////////////////////////////////
             //check database if the user name exists
+            //assume the username exists
+            //decode
 
 
             cout << "\tEnter your password: ";
             cin >> psd_login;
-            //check database if the password is correct
 
-            gameMenu();
+            //check database if the password is correct
+            while(psd_login != decode(db_psd)){
+                cout << "\tWrong Password! " << endl;
+                cout << "\tEnter your password: ";
+                cin >> psd_login;
+
+            }
+
+            if (psd_login == decode(db_psd)){
+                gameMenu();
+            }
 
             break;
         case 2:
@@ -354,12 +366,17 @@ string encryption(string& c){
 }
 
 string decode(string& c){
+    string todo = c;
+    //cout << "Before decode, argument c= " << c << endl;
+    //cout << "Before decode, todo = " << todo << endl;
     int a[] = {1, 3, 7, 9, 8, 6, 4, 0};
-    for(int i = 0, j = 0; c[j];j++, i = (i + 1) % 8){
+    for(int i = 0, j = 0; todo[j];j++, i = (i + 1) % 8){
 
-        c[j]-=a[i];
+        todo[j]-=a[i];
 
-        if(c[j] < 32) c[j] += 90;
+        if(todo[j] < 32) todo[j] += 90;
     }
-    return c;
+    //cout << "After decode, argument c= " << c << endl;
+    //cout << "After decode " << todo << endl;
+    return todo;
 }
