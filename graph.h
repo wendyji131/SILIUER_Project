@@ -1,3 +1,5 @@
+#ifndef GRAPH_H_
+#define GRAPH_H_
 #include <iostream>
 using namespace std;
 #include <stdio.h>
@@ -164,4 +166,6 @@ color getColor()
 }
 
 };
+
+#endif
 
