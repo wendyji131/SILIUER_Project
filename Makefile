@@ -1,4 +1,4 @@
 game:*cpp
-	g++ *cpp -o game -pthread -g
+	g++ *cpp -o game -lpthread -g
 clean:
 	rm game

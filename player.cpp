@@ -85,7 +85,7 @@ bool player::checkPassword(string& psw){
 
 void player::printPlayerInfo() {
     cout << "\tUsername:      " << username_ << endl;
-    cout << "\tEmail Address: " << email_ << endl;
+    //cout << "\tEmail Address: " << email_ << endl;
     cout << "\tHighest Score: " << getHighestScore() << endl;
 }
 
